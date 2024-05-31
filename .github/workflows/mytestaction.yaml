@@ -10,27 +10,35 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '17'
-          cache: 'gradle'
+      #- name: Set Up JDK
+      #  uses: actions/setup-java@v3
+      #  with:
+      #    distribution: 'zulu' # See 'Supported distributions' for available options
+      #    java-version: '17'
+      #    cache: 'gradle'
 
       - name: Fail
         id: Fail
         continue-on-error: true
         run: exit 1
 
-      - name: Send result
-        if: steps.Fail.outcome == 'failure'
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5'
-          method: 'POST'
-          customHeaders: '{"Content-Type": "application/json"}'
-          data: '{"build": "failed"}'
+        # - name: Send result
+        #   if: steps.Fail.outcome == 'failure'
+        #   uses: fjogeleit/http-request-action@v1
+        #   with:
+        #     url: 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5'
+        #     method: 'POST'
+        #     customHeaders: '{"Content-Type": "application/json"}'
+        #     data: '{"build": "failure"}'
 
+
+      - name: Send Result
+        id: sendResult
+        run: |
+          curl -X POST 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5' \
+          -H 'content-type: application/json' \
+          -d "{'status': steps.Fail.outcome }"
+        
       #- name: Change wrapper permissions
       #  run: chmod +x ./gradlew
 
