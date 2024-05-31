@@ -36,11 +36,15 @@ jobs:
         id: sendResult
         run: |
           JOB_LINK="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
-          curl -X POST 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5' \
-          -H 'content-type: application/json' \
-          -d "{'status': ${{ steps.Fail.outcome }}, 'job_link': $JOB_LINK }"
-        
+          if [[ $ {{ steps.Fail.outcome }} == "failure" ]] ; then
+            curl -X POST 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5' \
+            -H 'content-type: application/json' \
+            -d "{'status': ${{ steps.Fail.outcome }}, 'job_link': $JOB_LINK }"
+          else 
+            curl -X POST 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5' \
+            -H 'content-type: application/json' \
+            -d "{'status': ${{ steps.Fail.outcome }} }"
+          fi 
       #- name: Change wrapper permissions
       #  run: chmod +x ./gradlew
 
