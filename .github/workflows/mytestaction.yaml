@@ -17,8 +17,10 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      - name: Fail
+        run: exit 1
+
       - name: Send result
-        
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5'
