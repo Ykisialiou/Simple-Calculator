@@ -20,7 +20,7 @@ jobs:
       - name: Fail
         id: Fail
         continue-on-error: true
-        run: exit 0
+        run: exit 1 
 
         # - name: Send result
         #   if: steps.Fail.outcome == 'failure'
