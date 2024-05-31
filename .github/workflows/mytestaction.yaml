@@ -18,11 +18,12 @@ jobs:
           cache: 'gradle'
 
       - name: Fail
+        id: Fail
         continue-on-error: true
         run: exit 1
 
       - name: Send result
-        #if: steps.Fail.outcome == 'failure'
+        if: steps.Fail.outcome == 'failure'
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5'
