@@ -18,15 +18,17 @@ jobs:
           cache: 'gradle'
 
       - name: Fail
+        continue-on-error: true
         run: exit 1
 
       - name: Send result
+        if: steps.Fail.outcome == 'failure'
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{"build": "succsesfull"}'
+          data: '{"build": "failed"}'
 
       #- name: Change wrapper permissions
       #  run: chmod +x ./gradlew
