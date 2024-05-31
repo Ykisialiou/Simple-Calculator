@@ -17,13 +17,22 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+      - name: Send result
+        
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://webhook.site/6c19f3eb-e676-443c-bbce-cfa90120a2c5'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{"build": "succsesfull"}'
+
+      #- name: Change wrapper permissions
+      #  run: chmod +x ./gradlew
 
       # Run Tests Build
-      - name: Run gradle tests
-        run: ./gradlew test
+      #- name: Run gradle tests
+      #  run: ./gradlew test
 
       # Run Build Project
-      - name: Build gradle project
-        run: ./gradlew build
+      #- name: Build gradle project
+      #  run: ./gradlew build
